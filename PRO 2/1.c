@@ -30,6 +30,7 @@ Data Stack size         : 512
 #include <stdlib.h>
 
 
+
 #define LCD_DPRT PORTA
 #define LCD_DDDR DDRA
 #define LCD_DPIN PINA
@@ -112,6 +113,7 @@ void main(void)
 {
     // Declare your local variables here  
     int flag_ring = 0; 
+    
     // Input/Output Ports initialization
     // Port A initialization
     // Function: Bit7=Out Bit6=Out Bit5=Out Bit4=Out Bit3=Out Bit2=Out Bit1=Out Bit0=Out 
@@ -215,13 +217,14 @@ void main(void)
 
     lcd_init();
     lcd_gotoxy(1,1);
+    
       
     //GICR = 1<<INT0;		
 	//MCUCR = 1<<ISC01 | 1<<ISC00; 	
 	//sei();
     
     while (1)
-    {
+    {            
         do  
         {  
             KEY_PRT &= 0x0F;           //ground all rows of keyboard at once  
@@ -325,8 +328,7 @@ void main(void)
                     
                 }
             }
-        }  
-        		 
+        }  		 
         else if (colloc == 0x0D)  // col 2
         {
             if (flag_ring)
