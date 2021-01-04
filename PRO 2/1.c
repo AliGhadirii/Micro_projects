@@ -282,14 +282,6 @@ void main(void)
                             PORTB=(1<<PORTB3); 
                             delay_ms(500);
                             PORTB=(0<<PORTB3); 
-                                 
-                            PORTD=(1<<PORTD4);
-                            delay_ms(500);                                
-                            PORTD=(0<<PORTD4);
-                            flag_ring = 0;
-                            lcdCommand(0x01);
-                            lcdCommand(0x80);  
-                            lcd_gotoxy(1,1);
                             break;
                         }
                     case 1:
@@ -301,14 +293,6 @@ void main(void)
                             PORTB=(1<<PORTB6); 
                             delay_ms(500);
                             PORTB=(0<<PORTB6);
-                                  
-                            PORTD=(1<<PORTD4);
-                            delay_ms(500);                                
-                            PORTD=(0<<PORTD4);
-                            flag_ring = 0;
-                            lcdCommand(0x01);
-                            lcdCommand(0x80);  
-                            lcd_gotoxy(1,1);
                             break;
                         }
                     case 2:
@@ -320,6 +304,14 @@ void main(void)
                             PORTD=(1<<PORTD6); 
                             delay_ms(500);
                             PORTD=(0<<PORTD6);
+                            break;
+                        }
+                    case 3:
+                        { 
+                            lcdCommand(0x01);
+                            lcdCommand(0x80);  
+                            lcd_gotoxy(1,1);  
+                            lcd_print("open");
                                   
                             PORTD=(1<<PORTD4);
                             delay_ms(500);                                
@@ -349,16 +341,8 @@ void main(void)
                             lcd_print(keypad[rowlock][1]);
                             PORTB=(1<<PORTB4); 
                             delay_ms(500);
-                            PORTB=(0<<PORTB4); 
-                                 
-                            PORTD=(1<<PORTD4);
-                            delay_ms(500);                                
-                            PORTD=(0<<PORTD4);
-                            flag_ring = 0;
-                            lcdCommand(0x01);
-                            lcdCommand(0x80);  
-                            lcd_gotoxy(1,1);
-                            break;
+                            PORTB=(0<<PORTB4);
+                            break;                     
                         }
                     case 1:
                         { 
@@ -369,14 +353,6 @@ void main(void)
                             PORTB=(1<<PORTB7); 
                             delay_ms(500);
                             PORTB=(0<<PORTB7);
-                                  
-                            PORTD=(1<<PORTD4);
-                            delay_ms(500);                                
-                            PORTD=(0<<PORTD4);
-                            flag_ring = 0;
-                            lcdCommand(0x01);
-                            lcdCommand(0x80);  
-                            lcd_gotoxy(1,1);
                             break;
                         }
                     case 2:
@@ -388,14 +364,7 @@ void main(void)
                             PORTD=(1<<PORTD7); 
                             delay_ms(500);
                             PORTD=(0<<PORTD7);
-                                  
-                            PORTD=(1<<PORTD4);
-                            delay_ms(500);                                
-                            PORTD=(0<<PORTD4);
-                            flag_ring = 0;
-                            lcdCommand(0x01);
-                            lcdCommand(0x80);  
-                            lcd_gotoxy(1,1);
+                        
                             break;
                         }
                     
@@ -424,14 +393,7 @@ void main(void)
                                 PORTB=(1<<PORTB5); 
                                 delay_ms(500);
                                 PORTB=(0<<PORTB5); 
-                                 
-                                PORTD=(1<<PORTD4);
-                                delay_ms(500);                                
-                                PORTD=(0<<PORTD4);
-                                flag_ring = 0;
-                                lcdCommand(0x01);
-                                lcdCommand(0x80);  
-                                lcd_gotoxy(1,1);
+                            
                                 break;
                             }
                         case 1:
@@ -443,14 +405,7 @@ void main(void)
                                 PORTD=(1<<PORTD5); 
                                 delay_ms(500);
                                 PORTD=(0<<PORTD5);
-                                  
-                                PORTD=(1<<PORTD4);
-                                delay_ms(500);                                
-                                PORTD=(0<<PORTD4);
-                                flag_ring = 0;
-                                lcdCommand(0x01);
-                                lcdCommand(0x80);  
-                                lcd_gotoxy(1,1);
+                            
                                 break;
                             }
                     }
