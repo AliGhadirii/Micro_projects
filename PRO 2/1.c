@@ -30,7 +30,6 @@ Data Stack size         : 512
 #include <stdlib.h>
 
 
-
 #define LCD_DPRT PORTA
 #define LCD_DDDR DDRA
 #define LCD_DPIN PINA
@@ -109,10 +108,19 @@ void lcd_print( char * str )
 }
 
 
+
+
 void main(void)
 {
     // Declare your local variables here  
-    int flag_ring = 0; 
+    int flag_ring = 0;      
+    int first_num_flag = 0;
+    int first_num;   
+    char passwords_array [8][5] = {"1111", "2222", "3333", "4444", "5555", "6666", "7777", "8888"};
+    char str_password [5] = "";
+    
+    
+    
     
     // Input/Output Ports initialization
     // Port A initialization
@@ -217,19 +225,19 @@ void main(void)
 
     lcd_init();
     lcd_gotoxy(1,1);
-    
       
     //GICR = 1<<INT0;		
 	//MCUCR = 1<<ISC01 | 1<<ISC00; 	
 	//sei();
     
     while (1)
-    {            
+    {
         do  
         {  
             KEY_PRT &= 0x0F;           //ground all rows of keyboard at once  
             colloc = (KEY_PIN & 0x0F);      //read the columns of keyboard  
         } while (colloc != 0x0F);     //keep checking until all keys released  
+    			
         do  
         {  
             do  
@@ -272,116 +280,235 @@ void main(void)
             
         if (colloc == 0x0E) // col 1
         {
-            if (flag_ring)
-            {
-                switch(rowlock)
+            //lcd_print(keypad[rowlock][0]);   
+            //if(rowlock == 0 || rowlock == 1 || rowlock == 2){ 
+                if (flag_ring)
                 {
-                    case 0:
-                        {
-                            lcdCommand(0x01);
-                            lcdCommand(0x80);  
-                            lcd_gotoxy(1,1);
-                            lcd_print(keypad[rowlock][0]);
-                            PORTB=(1<<PORTB3); 
-                            delay_ms(500);
-                            PORTB=(0<<PORTB3); 
-                            break;
-                        }
-                    case 1:
-                        { 
-                            lcdCommand(0x01);
-                            lcdCommand(0x80);  
-                            lcd_gotoxy(1,1);  
-                            lcd_print(keypad[rowlock][0]);                        
-                            PORTB=(1<<PORTB6); 
-                            delay_ms(500);
-                            PORTB=(0<<PORTB6);
-                            break;
-                        }
-                    case 2:
-                        { 
-                            lcdCommand(0x01);
-                            lcdCommand(0x80);  
-                            lcd_gotoxy(1,1);  
-                            lcd_print(keypad[rowlock][0]);                        
-                            PORTD=(1<<PORTD6); 
-                            delay_ms(500);
-                            PORTD=(0<<PORTD6);
-                            break;
-                        }
-                    case 3:
-                        { 
-                            lcdCommand(0x01);
-                            lcdCommand(0x80);  
-                            lcd_gotoxy(1,1);  
-                            lcd_print("open");
-                                  
-                            PORTD=(1<<PORTD4);
-                            delay_ms(500);                                
-                            PORTD=(0<<PORTD4);
-                            flag_ring = 0;
-                            lcdCommand(0x01);
-                            lcdCommand(0x80);  
-                            lcd_gotoxy(1,1);
-                            break;
-                        }
-                    
+                    switch(rowlock)
+                    {
+                        case 0:
+                            {
+                                lcdCommand(0x01);
+                                lcdCommand(0x80);  
+                                lcd_gotoxy(1,1);
+                                lcd_print(keypad[rowlock][0]);
+                                PORTB=(1<<PORTB3); 
+                                delay_ms(500);
+                                PORTB=(0<<PORTB3); 
+                                break;
+                            }
+                        case 1:
+                            { 
+                                lcdCommand(0x01);
+                                lcdCommand(0x80);  
+                                lcd_gotoxy(1,1);  
+                                lcd_print(keypad[rowlock][0]);                        
+                                PORTB=(1<<PORTB6); 
+                                delay_ms(500);
+                                PORTB=(0<<PORTB6);
+                                break;
+                            }
+                        case 2:
+                            { 
+                                lcdCommand(0x01);
+                                lcdCommand(0x80);  
+                                lcd_gotoxy(1,1);  
+                                lcd_print(keypad[rowlock][0]);                        
+                                PORTD=(1<<PORTD6); 
+                                delay_ms(500);
+                                PORTD=(0<<PORTD6);
+                                break;
+                            }
+                        case 3:
+                            { 
+                                lcdCommand(0x01);
+                                lcdCommand(0x80);  
+                                lcd_gotoxy(1,1);  
+                                lcd_print("Door Opened");
+                                                  
+                                PORTD=(1<<PORTD4);
+                                delay_ms(500);                                
+                                PORTD=(0<<PORTD4);
+                                flag_ring = 0;
+                                lcdCommand(0x01);
+                                lcdCommand(0x80);  
+                                lcd_gotoxy(1,1);
+                                break;
+                            }
+                            
+                    }
+                 
                 }
-            }
-        }  		 
+
+                else if(first_num_flag == 0){// the floor num that wants to enter the password
+                    lcd_print(keypad[rowlock][0]);
+                    lcd_print(" Enter password : ");
+                    first_num = atoi(keypad[rowlock][0]);
+                    first_num_flag ++;
+                    delay_ms(100);
+                    lcdCommand(0x01);
+                    lcdCommand(0x80);  
+                    lcd_gotoxy(1,1);
+                }
+                else {
+                    lcd_print(keypad[rowlock][0]);
+                    if (first_num_flag == 4){ //password has completed 
+                        strcat(str_password, keypad[rowlock][0]);
+                       
+                        if(strcmp (str_password, passwords_array[first_num - 1])==0)
+                        {
+                             lcdCommand(0x01);
+                             lcdCommand(0x80);  
+                             lcd_gotoxy(1,1);
+                             lcd_print("Correct Password");
+                             PORTD=(1<<PORTD4);
+                             delay_ms(500);                                
+                             PORTD=(0<<PORTD4);
+                             lcdCommand(0x01);
+                             lcdCommand(0x80);  
+                             lcd_gotoxy(1,1);
+                             first_num_flag = 0;
+                             strcpy(str_password, "");
+                             
+                        } 
+                        else
+                        {
+                             lcdCommand(0x01);
+                             lcdCommand(0x80);  
+                             lcd_gotoxy(1,1);
+                             lcd_print("Password wrong");
+                             delay_ms(500);
+                             lcdCommand(0x01);
+                             lcdCommand(0x80);  
+                             lcd_gotoxy(1,1);
+                             first_num_flag = 0;
+                             strcpy(str_password, "");
+                        } 
+                    
+                        
+                    }
+                    else
+                    {    
+
+                         //lcd_print(keypad[rowlock][0]);
+                         strcat(str_password, keypad[rowlock][0]);
+                         first_num_flag ++;  
+                    }
+                
+                }       
+        }  
+        		 
         else if (colloc == 0x0D)  // col 2
         {
-            if (flag_ring)
-            {
-                switch(rowlock)
+            //lcd_print(keypad[rowlock][1]);   
+            if(rowlock == 0 || rowlock == 1 || rowlock == 2){
+               if (flag_ring)
                 {
-                    case 0:
-                        {
-                            lcdCommand(0x01);
-                            lcdCommand(0x80);  
-                            lcd_gotoxy(1,1);
-                            lcd_print(keypad[rowlock][1]);
-                            PORTB=(1<<PORTB4); 
-                            delay_ms(500);
-                            PORTB=(0<<PORTB4);
-                            break;                     
-                        }
-                    case 1:
-                        { 
-                            lcdCommand(0x01);
-                            lcdCommand(0x80);  
-                            lcd_gotoxy(1,1);  
-                            lcd_print(keypad[rowlock][1]);                        
-                            PORTB=(1<<PORTB7); 
-                            delay_ms(500);
-                            PORTB=(0<<PORTB7);
-                            break;
-                        }
-                    case 2:
-                        { 
-                            lcdCommand(0x01);
-                            lcdCommand(0x80);  
-                            lcd_gotoxy(1,1);  
-                            lcd_print(keypad[rowlock][1]);                        
-                            PORTD=(1<<PORTD7); 
-                            delay_ms(500);
-                            PORTD=(0<<PORTD7);
+                    switch(rowlock)
+                    {
+                        case 0:
+                            {
+                                lcdCommand(0x01);
+                                lcdCommand(0x80);  
+                                lcd_gotoxy(1,1);
+                                lcd_print(keypad[rowlock][1]);
+                                PORTB=(1<<PORTB4); 
+                                delay_ms(500);
+                                PORTB=(0<<PORTB4);
+                                break;                     
+                            }
+                        case 1:
+                            { 
+                                lcdCommand(0x01);
+                                lcdCommand(0x80);  
+                                lcd_gotoxy(1,1);  
+                                lcd_print(keypad[rowlock][1]);                        
+                                PORTB=(1<<PORTB7); 
+                                delay_ms(500);
+                                PORTB=(0<<PORTB7);
+                                break;
+                            }
+                        case 2:
+                            { 
+                                lcdCommand(0x01);
+                                lcdCommand(0x80);  
+                                lcd_gotoxy(1,1);  
+                                lcd_print(keypad[rowlock][1]);                        
+                                PORTD=(1<<PORTD7); 
+                                delay_ms(500);
+                                PORTD=(0<<PORTD7);
+                            
+                                break;
+                            }
                         
-                            break;
-                        }
-                    
+                    }
+                }	   
+            
+            
+                else if(first_num_flag == 0){// the floor num that wants to enter the password
+                    lcd_print(keypad[rowlock][1]); 
+                    lcd_print(" Enter password : ");
+                    first_num = atoi(keypad[rowlock][1]);
+                    first_num_flag ++;
+                    delay_ms(100);
+                    lcdCommand(0x01);
+                    lcdCommand(0x80);  
+                    lcd_gotoxy(1,1);
                 }
-            }	   
+                else {
+                    lcd_print(keypad[rowlock][1]);
+                    if (first_num_flag == 4){ //password has completed 
+                        strcat(str_password, keypad[rowlock][1]);
+                       
+                        if(strcmp (str_password, passwords_array[first_num - 1])==0)
+                        {
+                             lcdCommand(0x01);
+                             lcdCommand(0x80);  
+                             lcd_gotoxy(1,1);
+                             lcd_print("Correct Password");
+                             PORTD=(1<<PORTD4);
+                             delay_ms(500);                                
+                             PORTD=(0<<PORTD4);
+                             lcdCommand(0x01);
+                             lcdCommand(0x80);  
+                             lcd_gotoxy(1,1);
+                             first_num_flag = 0;
+                             strcpy(str_password, "");
+                             
+                        } 
+                        else
+                        {
+                             lcdCommand(0x01);
+                             lcdCommand(0x80);  
+                             lcd_gotoxy(1,1);
+                             lcd_print("Password wrong");
+                             delay_ms(500);
+                             lcdCommand(0x01);
+                             lcdCommand(0x80);  
+                             lcd_gotoxy(1,1);
+                             first_num_flag = 0;
+                             strcpy(str_password, "");
+                        } 
+                    
+                        
+                    }
+                    else
+                    {    
+
+                         //lcd_print(keypad[rowlock][0]);
+                         strcat(str_password, keypad[rowlock][1]);
+                         first_num_flag ++;  
+                    }
+                
+                }
+            }
+               
         }  
+        
         else if (colloc == 0x0B)  //col 3
         {
-            if(rowlock == 3)                     \\ guest
-            {
-                lcd_print("Ring which floor?");
-                flag_ring = 1;                
-            }
-            else
-            {
+            //lcd_print(keypad[rowlock][2]);   
+            if(rowlock == 0 || rowlock == 1 || rowlock == 2){
                 if (flag_ring)
                 {
                     switch(rowlock)
@@ -409,13 +536,75 @@ void main(void)
                                 PORTD=(0<<PORTD5);
                             
                                 break;
-                            }
+                            } 
+                            // where is case 2
                     }
                 }
-            }
             
-        			
-        			   
+            
+                else if(first_num_flag == 0){// the floor num that wants to enter the password
+                    lcd_print(keypad[rowlock][2]);
+                    lcd_print(" Enter password : ");
+                    first_num = atoi(keypad[rowlock][2]);
+                    first_num_flag ++;
+                    delay_ms(100);
+                    lcdCommand(0x01);
+                    lcdCommand(0x80);  
+                    lcd_gotoxy(1,1);
+                }
+                else {
+                    lcd_print(keypad[rowlock][2]);
+                    if (first_num_flag == 4){ //password has completed 
+                        strcat(str_password, keypad[rowlock][2]);
+                       
+                        if(strcmp (str_password, passwords_array[first_num - 1])==0)
+                        {
+                             lcdCommand(0x01);
+                             lcdCommand(0x80);  
+                             lcd_gotoxy(1,1);
+                             lcd_print("Correct Password");
+                             PORTD=(1<<PORTD4);
+                             delay_ms(500);                                
+                             PORTD=(0<<PORTD4);
+                             lcdCommand(0x01);
+                             lcdCommand(0x80);  
+                             lcd_gotoxy(1,1);
+                             first_num_flag = 0;
+                             strcpy(str_password, "");
+                             
+                        } 
+                        else
+                        {
+                             lcdCommand(0x01);
+                             lcdCommand(0x80);  
+                             lcd_gotoxy(1,1);
+                             lcd_print("Password wrong");
+                             delay_ms(500);
+                             lcdCommand(0x01);
+                             lcdCommand(0x80);  
+                             lcd_gotoxy(1,1);
+                             first_num_flag = 0;
+                             strcpy(str_password, "");
+                        } 
+                    
+                        
+                    }
+                    else
+                    {    
+
+                         //lcd_print(keypad[rowlock][0]);
+                         strcat(str_password, keypad[rowlock][2]);
+                         first_num_flag ++;  
+                    }
+                
+                }
+            } 
+             else if(rowlock == 3) // # has been pushed => guest
+             {  
+                lcd_print("Ring which floor?");
+                flag_ring = 1;   
+             }
+            		   
         }  
 
     }
