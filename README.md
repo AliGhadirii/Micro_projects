@@ -97,6 +97,41 @@ $ git clone https://github.com/AliGhadirii/Micro_projects.git
 
 You can simply run the "Q4_b.pdsprj" file and work with this calculator in proteus.
 
+# **Project 5, Line follower robot using atmega32**
+
+In this project we tried to simulate a robot which follows balack line using IR sensors and DC motor.
+
+# **PreRequirements**
+
+For This Project You Need below Requirements :
+- proteus softwawre version 8
+- codevison or any text editor to see the code.
+
+# **Usage**
+## Step0 : Cloning
+
+First of All Clone the Project : 
+
+```shell
+$ git clone https://github.com/AliGhadirii/Micro_projects.git
+```
+
+## Step1 : 
+
+Open "P5.pdsprj" file using proteus.
+
+## Step2 : 
+
+Right click on each IR sensor and program them with "InfraredSensorsTEP.HEX".
+
+## Step3 : 
+
+Right click on the atmega32 and program it with .hex file of the given "pro.c" file.
+Then run the program.
+Here is the table of states that we have :
+
+
+
 # **Support**
 
 Reach out to me at one of the following places!
