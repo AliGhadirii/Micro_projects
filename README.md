@@ -74,6 +74,29 @@ $ git clone https://github.com/AliGhadirii/Micro_projects.git
 
 You can simply run the "Q3.pdsprj" file and work with this calculator in proteus.
 
+# **Project 4, generate Heartrate wave using atmega32**
+
+In this project we tried to generate haertwave rate using initial ADC of atmega32.
+
+# **PreRequirements**
+
+For This Project You Need below Requirements :
+- proteus softwawre version 8
+- codevison or any text editor to see the code.
+
+# **Usage**
+## Step0 : Cloning
+
+First of All Clone the Project : 
+
+```shell
+$ git clone https://github.com/AliGhadirii/Micro_projects.git
+```
+
+## Step1 : 
+
+You can simply run the "Q4_b.pdsprj" file and work with this calculator in proteus.
+
 # **Support**
 
 Reach out to me at one of the following places!
