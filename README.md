@@ -28,13 +28,15 @@ $ git clone https://github.com/AliGhadirii/Micro_projects.git
 
 You can simply run the "final.pdsprj" file and work with this calculator in proteus.
 
-# Project 2, green thread
-In this project we tend to write thread library named green thread which acts like pthread library in c.
+# **Project 2, Door bell using atmega32**
+
+In this project we tried to simulate a simple digital door bell in proteus using atmega32.
 
 # **PreRequirements**
 
 For This Project You Need below Requirements :
-- C compiler installed on your device.
+- proteus softwawre version 8
+- codevison or any text editor to see the code.
 
 # **Usage**
 ## Step0 : Cloning
@@ -42,20 +44,12 @@ For This Project You Need below Requirements :
 First of All Clone the Project : 
 
 ```shell
-$ git clone https://github.com/AliGhadirii/Os_Projects.git
+$ git clone https://github.com/AliGhadirii/Micro_projects.git
 ```
 
-## Step1 : make files
+## Step1 : 
 
-You can simply make files with following  command
-```shell
-$ make
-```
-## Step2 : Now we have green_test and posix_test, so we can run both files to compare the result
-```shell
-$ ./green_test
-$ ./posix_test
-```
+You can simply run the "Q1.pdsprj" file and work with this calculator in proteus.
 
 # **Support**
 
