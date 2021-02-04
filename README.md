@@ -130,7 +130,8 @@ Right click on the atmega32 and program it with .hex file of the given "pro.c" f
 Then run the program.<br />
 Here is the table of states that we have:<br /> 
 ![picture](Pro5/Capture.PNG)
-
+<br /><br />
+![Alt Text](Pro5/pro5.gif)
 
 
 # **Support**
