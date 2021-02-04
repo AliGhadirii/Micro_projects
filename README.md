@@ -129,6 +129,7 @@ Right click on each IR sensor and program them with "InfraredSensorsTEP.HEX".
 Right click on the atmega32 and program it with .hex file of the given "pro.c" file.
 Then run the program.
 Here is the table of states that we have :
+![picture](Pro5/Capture.PNG)
 
 
 
